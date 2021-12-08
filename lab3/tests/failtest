@@ -1,0 +1,9 @@
+maxShapes 10
+create s1 triangle 1 3 40 10
+draw all
+maxShapes 3
+create s1 rectangle 90 90 3 4
+create s2 triangle 1 1 1 1
+create s3 ellipse 30 30 30 30
+create s4 circle 9 9 20 20
+draw all

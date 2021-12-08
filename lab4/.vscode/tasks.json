@@ -1,0 +1,21 @@
+{
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "type": "cppbuild",
+                "label": "Build parser",
+                "command": "/usr/bin/make",
+                "args": ["-f", "${cwd}/Makefile"],
+                "options": {
+                    "cwd": "${cwd}"
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true,
+                }
+            }
+        ]
+    }

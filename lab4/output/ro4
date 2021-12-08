@@ -1,0 +1,226 @@
+> a: ellipse 1 1 1 1
+> error: name a exists
+> b: ellipse 300 21233 42310 9392
+> c2d: ellipse 2020 20 2020 10
+> cool-aid: triangle 123 292 192 291
+> cool_aid: rectangle 0 0 0 0
+> manifest^Z: ellipse 23 234 22 12
+> g1: group 
+> g-1: group 
+> g11-: group 
+> g---11: group 
+> g^Z: group 
+> $sign: group 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+manifest^Z: ellipse 23 234 22 12
+g1:
+g-1:
+g11-:
+g---11:
+g^Z:
+$sign:
+> moved a to g1
+> moved b to g1
+> moved c2d to g1
+> moved cool-aid to $sign
+> moved cool_aid to $sign
+> moved manifest^Z to g^Z
+> drawing:
+pool:
+g1:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+g-1:
+g11-:
+g---11:
+g^Z:
+manifest^Z: ellipse 23 234 22 12
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> g1: deleted 
+> error: group g1 not found
+> manifest^Z: deleted 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+g-1:
+g11-:
+g---11:
+g^Z:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> g^Z: deleted 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+g-1:
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> manifest^Z: triangle 23 234 22 12
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g-1:
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> error: group g^Z not found
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g-1:
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> error: shape g^Z not found
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g-1:
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> g-1: deleted 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> error: group g-1 not found
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> error: shape g-1 not found
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+c2d: ellipse 2020 20 2020 10
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> moved c2d to g11-
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+manifest^Z: triangle 23 234 22 12
+g11-:
+c2d: ellipse 2020 20 2020 10
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> c2d: deleted 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+manifest^Z: triangle 23 234 22 12
+g11-:
+g---11:
+$sign:
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> g11-: deleted 
+> $sign: deleted 
+> drawing:
+pool:
+a: ellipse 1 1 1 1
+b: ellipse 300 21233 42310 9392
+manifest^Z: triangle 23 234 22 12
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+g---11:
+> a: deleted 
+> b: deleted 
+> drawing:
+pool:
+manifest^Z: triangle 23 234 22 12
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+g---11:
+> moved cool_aid to g---11
+> drawing:
+pool:
+manifest^Z: triangle 23 234 22 12
+cool-aid: triangle 123 292 192 291
+g---11:
+cool_aid: rectangle 0 0 0 0
+> g---11: deleted 
+> drawing:
+pool:
+manifest^Z: triangle 23 234 22 12
+cool-aid: triangle 123 292 192 291
+cool_aid: rectangle 0 0 0 0
+> 

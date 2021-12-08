@@ -1,0 +1,9 @@
+g++ -c -g playMove.cpp -o playMove.o
+g++ -c -g GameState.cpp -o GameState.o
+g++ -c -g tictactoe.cpp -o tictactoe.o
+g++ playMove.o GameState.o tictactoe.o -o tictactoe.exe
+tictactoe.o: In function `main':
+/u/b/yakubumu/Desktop/ece244/lab2/tictactoe.cpp:32: undefined reference to `GameState::GameState()'
+/u/b/yakubumu/Desktop/ece244/lab2/tictactoe.cpp:40: undefined reference to `GameState::get_gameOver()'
+collect2: error: ld returned 1 exit status
+gmake: *** [Makefile:5: tictactoe.exe] Error 1

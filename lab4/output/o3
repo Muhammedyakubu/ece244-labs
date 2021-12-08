@@ -1,0 +1,30 @@
+> a: rectangle 1 2 3 4
+> p: rectangle 1 2 2 2
+> drawing:
+pool:
+a: rectangle 1 2 3 4
+p: rectangle 1 2 2 2
+> b: group
+> c: group
+> drawing:
+pool:
+a: rectangle 1 2 3 4
+p: rectangle 1 2 2 2
+b:
+c:
+> moved a to c
+> a: deleted
+> drawing:
+pool:
+p: rectangle 1 2 2 2
+b:
+c:
+> moved p to c
+> error: shape f not found
+> error: shape j not found
+> c: deleted
+> drawing:
+pool:
+p: rectangle 1 2 2 2
+b:
+> 

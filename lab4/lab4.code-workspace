@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"iosfwd": "cpp",
+			"iostream": "cpp",
+			"ostream": "cpp"
+		}
+	}
+}

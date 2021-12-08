@@ -1,0 +1,39 @@
+Submitting assignment 2 from remote.ecf.utoronto.ca
+Checking for the expected files in the current directory
+playMove.cpp GameState.cpp tictactoe.cpp
+Attempting to build your code.  Make output follows:
+==================================================================
+g++ -I/u/course/ece244i/public/2/common -Wall -Wextra -pedantic -std=c++11 -c playMove.cpp -o playMove.o
+g++ -I/u/course/ece244i/public/2/common -Wall -Wextra -pedantic -std=c++11 -c GameState.cpp -o GameState.o
+g++ -I/u/course/ece244i/public/2/common -Wall -Wextra -pedantic -std=c++11 -c tictactoe.cpp -o tictactoe.o
+g++ playMove.o GameState.o tictactoe.o -o tictactoe.exe -Wall -Wextra -pedantic -std=c++11
+------------------------------------------------------------------
+The build appears to have been successful
+
+Running exercise on the produced executable 'tictactoe.exe'
+############### Testcase 1 Results ##########################
+Functionality: PASS - Output matches solution
+############### Testcase 2 Results ##########################
+Functionality: PASS - Output matches solution
+############### Testcase 3 Results ##########################
+Functionality: PASS - Output matches solution
+############### Testcase 4 Results ##########################
+Functionality: PASS - Output matches solution
+################# Summary for 4 test(s) #####################
+Functionality: PASS: All tests passed
+
+The required files passed exercise
+
+Submitting files
+
+Verifying submission
+submitece244f -l 2
+total 12
+-rw-r----- 1 submit ece244gp 2156 Sep 27 15:47 GameState.cpp
+-rw-r----- 1 submit ece244gp 2143 Sep 27 15:47 playMove.cpp
+-rw-r----- 1 submit ece244gp 3325 Sep 27 15:47 tictactoe.cpp
+
+All filesizes match. All timestamps match submission time.
+
+Submission was successful
+

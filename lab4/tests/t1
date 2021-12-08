@@ -1,0 +1,18 @@
+shape sqr rectangle 10 10 30 40
+shape circ ellipse 30 40 10 10
+shape trig triangle 60 80 30 50
+draw
+group no_corners
+draw
+move circ no_corners
+draw
+move sqr no
+draw
+move sqr no_corners
+draw
+move sqr no_corners
+draw
+delete no
+draw
+delete no_corners
+draw

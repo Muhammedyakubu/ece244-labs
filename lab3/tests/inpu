@@ -1,0 +1,73 @@
+maxShapes 2
+
+notacmd ging circle 1 2 3 3
+create circle circle 1 2 3 3
+create all all
+create circ draw
+create sha1 circle   2 3 4 4
+create sha1 rectangle 3 4 5 8
+create sha3 ging 2 3 2   1
+create ssdh circle 22 3 4 5
+create ssdh      circle 22 3 4 5
+create ssdh circle 22 3 4 5
+create ssdh circle 22 3 4 5
+create sha2 circle on e two three 4 5
+create circ  ellipse 2 3 4 5 6 
+create circ 
+create josh
+create sha2 ellipse 2 3 4 17
+create overload triangle 4 5 6 3
+
+notacmd 3 4
+move sha1 one three 3
+move all 3 
+move josh 
+move josh 2 3 4
+move sha1 -1
+move sha1 3 -1 3
+move sha1 2 2
+move sha1 3 3
+move 
+move sha1
+move sha1 1
+move sha1 1
+move sha1 1 2 -3
+move sha1 2 3
+move sha2 4 5
+
+notacmd 45
+rotate sha1 three60
+rotate josh   323 24  132 4
+rotate all gi 3
+rotate sha1 -234  2 2342 34
+rotate sha1 2 2
+rotate sha1 2 55
+rotate
+rotate sha1
+rotate sha1 45
+
+notacmd all
+notacmd sha1
+draw josh please
+draw ellipse 
+draw all 3
+draw sha1 4543 times 
+draw 
+draw all
+draw sha2
+
+notacmd all
+notacmd sha1
+delete draw 4 3 thre
+delete all 3
+delete sha1 4543 times 
+delete 
+delete all
+delete sha2
+
+create circ circle 3 4 5 5
+maxShapes 1
+create ging circle 2 3 4 4
+delete ging
+create ging circle 3 4 5 5
+draw all

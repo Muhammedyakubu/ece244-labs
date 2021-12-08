@@ -1,0 +1,350 @@
+#!/usr/bin/perl -w
+
+use strict;
+use File::Temp qw/ tempdir /;
+use Time::HiRes qw(usleep);
+
+# modified exercise
+# Message Corono#2891 if there are any issues
+# 
+# This is a modified exercise script from ~ece244i/public/exercise. See that file for the original description and changelog
+# Usage: ./exercise student_executable reference_executable test_cases
+# 
+# Valgrind is enabled by default
+
+# 08/06/02
+# kingyen@ecf.utoronto.ca
+# enhanced by johncwu@ca.ibm.com
+# enhanced by patrick.judd@mail.utoronto.ca 2012-09-06
+
+if($#ARGV != 2) {   
+  print "usage: ./exercise student_executable reference_executable test_cases\n";
+  exit(1);
+}
+
+my $rootdir = "/u/course/ece244i/public/";
+
+# check OS version, different OS versions can have different library versions causing different program behavior
+# force students to use the same OS version to avoid complications with marking
+my $os_ver; 
+my $required_os_ver;
+chomp($os_ver = `cat /etc/redhat-release | awk -F' ' '{print \$7}'`);
+chomp($required_os_ver = `cat $rootdir/redhat-release | awk -F' ' '{print \$7}'`);
+
+my $testfile = $ARGV[2];
+my $reffile = $ARGV[1];
+my $binfile = $ARGV[0];
+
+my $binname = $binfile;
+$binname =~ s/.*\///g;
+my $refname = $reffile;
+$refname =~ s/.*\///g;
+
+if ( ! -e $binfile ) {
+  die "Error: $binfile does not exist.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( -d $binfile ) {
+  die "Error: $binfile is a directory, not an executable.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( ! -x $binfile ) {
+  die "Error: $binfile is not an executable.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( ! -e $reffile ) {
+  die "Error: $reffile does not exist.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( -d $reffile ) {
+  die "Error: $reffile is a directory, not an executable.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( ! -x $reffile ) {
+  die "Error: $reffile is not an executable.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( ! -e $testfile ) {
+  die "Error: $testfile does not exist.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+if ( -d $testfile ) {
+  die "Error: $testfile is a directory, not an executable.\nPlease cd to the directory containing your program executable and try again.\n";
+}
+
+# deleted as_num, check_dudedate, duedate, found_duedate, curr_time
+
+#this is the time in seconds the program will wait until
+# it assumes the program has gone into an infinite loop
+my $timeout = 5;
+
+# the number of allowable output formats
+my $alternatives = 1;
+my $useValgrind = 1;
+my $valgrindSuppFile = "";
+
+# get the student's login name
+# getlogin doesn't work when script is called from within netbeans
+my $loginname = `whoami`; #getlogin;
+chomp $loginname;
+
+open BINHAND, "${binfile}" or die "Could not open $binfile.\n";
+my @binbuffer = <BINHAND>;
+close(BINHAND);
+
+open REFHAND, "${reffile}" or die "Could not open $reffile.\n";
+my @refbuffer = <REFHAND>;
+close(REFHAND);
+
+open TESTHAND, "${testfile}" or die "Could not open $testfile.\n";
+local $/;
+my @cases = split("\n---\n", <TESTHAND>);
+my $testcases = scalar @cases;
+close(TESTHAND);
+
+my $failedtests = 0;
+my $runtimeerrors = 0;
+my $memoryleaks = 0;
+
+# create a temporary directory and copy the specified files there
+my $tmpdir = tempdir(CLEANUP => 1); # automatically deleted on prog. exit
+
+#run all testcases
+for (my $testnum  = 0; $testnum < $testcases; $testnum++) {
+  print "\n";
+  print "#############################################################\n";
+  print "#############################################################\n";
+  print "Running Testcase ${\($testnum + 1)}\n";
+  print "#############################################################\n";
+  print "#############################################################\n";
+
+  if(!(open(BINHAND,"+>$tmpdir/${binname}.${loginname}")))
+  {
+    print "\nError copying binary file to temporary directory.\n Make sure your executable is in the pwd\n";
+    exit(1);
+  }
+  print BINHAND @binbuffer;
+  close(BINHAND);
+  chmod (0700,"$tmpdir/${binname}.${loginname}");
+
+  if(!(open(REFHAND,"+>$tmpdir/${refname}.${loginname}")))
+  {
+    print "\nError copying binary file to temporary directory.\n Make sure your executable is in the pwd\n";
+    exit(1);
+  }
+  print REFHAND @refbuffer;
+  close(REFHAND);
+  chmod (0700,"$tmpdir/${refname}.${loginname}");
+
+  print "\nRunning the following input on your program:\n";
+
+  print "=============================================================\n";
+  print "$cases[${testnum}]\n";
+
+  # RUN PROGRAM;
+  my $cmdline1 = "";
+  $cmdline1 = $cmdline1 . "echo \"$cases[${testnum}]\" | $tmpdir/${binname}.${loginname} > $tmpdir/${loginname}.out${testnum} 2> $tmpdir/${loginname}.err${testnum}; echo \"$cases[${testnum}]\" | $tmpdir/${refname}.${loginname} > $tmpdir/${loginname}.ref.out${testnum} 2> $tmpdir/${loginname}.ref.err${testnum}";
+
+
+  my $errorrun = 0;
+  my $exit_code = -1;
+
+  my $chpid = fork;
+  if($chpid==0)
+  {
+    # need to run in bash to redirect stderr
+    $ENV{SHELL} = "/bin/bash";
+    exec $cmdline1;
+  }
+  else
+  {
+    eval {
+      local  $SIG{ALRM} = sub {   
+        $errorrun = 1; 
+        my $cnt = kill 9,$chpid,$chpid+1,$chpid+2,$chpid+3;
+        if($cnt==0)
+        {
+          print "\nA drastic error occured trying to kill your hung process.";
+          print "\nRun 'ps -x' at the command line and kill your processes";
+          print "\nmanually.  Your code hung most likely by an infinite";
+          print "\nloop.\n";
+          print "\nTo kill process once you find the pid by running ps -x";
+          print "\ntype: 'kill -9 <pidnum>' at the command line";
+          die;
+        }
+      };
+      alarm $timeout;
+      waitpid $chpid,0;
+      $exit_code = $?;
+      alarm 0;
+    };
+  }  
+
+  print "-------------------------------------------------------------\n\n";
+  if ($exit_code != 0) {
+    printf("$exit_code\n");
+    printf("ERROR: your program exited with a non-zero exit code.\n");
+    printf("This means that the program crashed due to a run-time\n");
+    printf("error or that your main function returned a value other\n");
+    printf("than zero.  Make sure to fix this error before submitting,\n");
+    printf("because it may result in a loss of marks!\n\n");
+  }
+
+  if($errorrun == 1)
+  {
+    print "Your program went into an infinite loop.\n";
+  }
+
+  # runtime error = test fail 
+  if ($exit_code != 0 || $errorrun == 1) {
+    $runtimeerrors++; 
+    $failedtests++;
+    goto LOOP_END;
+  }
+
+  print "Your program produced the following output:\n";
+  print "=============================================================\n";
+  my $outfile = "$tmpdir/${loginname}.out${testnum}";
+  chmod( 0700, $outfile);
+  
+  if( ! (open( OUTH, $outfile)) ) {
+    die "Could not access your output file.\n";
+  }
+  
+  my $buffera = "";
+  while (<OUTH>) {$buffera = $buffera . $_;}
+  close(OUTH);
+  print "$buffera\n";
+  print "-------------------------------------------------------------\n";
+
+  my $passed_once = 0;
+  #check for non ASCII characters
+  #sometimes they can be invisible but will cause the compare to fail
+  my $filetype = `file $outfile`;
+  chomp($filetype);
+  unless ($filetype =~ m/ASCII.*text/ ) {
+    print "Error: program output contains non ascii characters.\n";
+    goto RESULTS;
+  }
+
+  # check stderr
+  if(! -f "$tmpdir/${loginname}.err${testnum}") {
+    print "Could not access your error output file.\n";
+    goto RESULTS;
+  }
+  
+  # We require all output to be done to stdout
+  # For some reason this runs no matter what
+  # my $stderr_size = `stat -c %s $tmpdir/${loginname}.err${testnum}`;
+  # chomp($stderr_size);
+  # if ($stderr_size ne "0"){
+  #   print "Error: you should not output to standard error, i.e. don't use 'cerr <<'\n";
+  #   goto RESULTS;
+  # }
+
+  my $count;
+  my $refsol;
+  $refsol = "$tmpdir/${loginname}.ref.out${testnum}"; # the reference output
+
+  # open reference solution
+  if(!(open(OUTH, $refsol))) {
+    die "\nCould not access reference output solution.\n";
+  }
+
+  my $bufferb = "";
+  while (<OUTH>) {$bufferb = $bufferb . $_;}
+  close(OUTH);
+
+  my $bufferb_formatted = $bufferb;
+
+  # strip out whitespace
+  $buffera =~ s/\s//g;
+  $bufferb =~ s/\s//g;
+
+  # if the two buffers differ at all we have an error
+  if ($buffera eq $bufferb) {
+      $passed_once = 1;
+    }
+
+  print "\n<<<<<<<<< Comparing output to solution >>>>>>>>>>>>\n";
+  if (! $passed_once) {
+    print "\n\nOutput did not match the solution\n";
+    print "The following output would have been accepted:\n";
+    $refsol="$tmpdir/${loginname}.ref.out${testnum}"; # the reference output
+    print "\n\nSolution output:\n";
+    print "=============================================================\n";
+    system ("cat $refsol");
+    print "\n-------------------------------------------------------------\n";
+    print "Running diff on program output and solution output\n";
+    print "( < actual output vs > expected output )\n";
+    print "=============================================================\n";
+    system("diff -abw $tmpdir/${loginname}.out${testnum} $refsol");
+    print "-------------------------------------------------------------\n";
+  }
+
+  # run valgrind
+
+  my $valLog = "";    
+  if ($useValgrind) {
+    print "\nRunning valgrind to check for memory leaks\n";
+    $cmdline1 = "valgrind --log-file=$tmpdir/${loginname}.valgrind${testnum} ";
+    $cmdline1 = $cmdline1 . "echo \"$cases[${testnum}]\" | $tmpdir/${binname}.${loginname} > $tmpdir/${loginname}.out${testnum} 2> $tmpdir/${loginname}.err${testnum}";
+    #print "$cmdline\n";
+    system ("$cmdline1");
+    open VALLOG, "$tmpdir/${loginname}.valgrind${testnum}" or die "Couldn't open valgrind log file\n";
+    while(<VALLOG>) {
+      # TODO: make these configurable
+      if (m/(definitely lost): [^0]/) {
+        $valLog = $valLog . "$_";
+        print "$valLog";
+      }
+    }
+  }
+
+  RESULTS:
+  print "\n############### Testcase ${\($testnum + 1)} Results ##########################\n"; 
+  if (! $passed_once) {
+    print "Functionality: FAIL - Output did not match solution\n";
+    $failedtests++;
+  } else {
+    print "Functionality: PASS - Output matches solution\n";
+  }
+  if ($useValgrind) {
+    if ("$valLog" eq "") {
+      print "Valgrind:      PASS - No memory leaks detected\n";
+    } else {
+      print "Valgrind:      FAIL - detected memory leaks!\n";
+      $memoryleaks++;
+    }
+  }
+
+  LOOP_END:
+  usleep(300000); # pause to show result of this test
+} # testcase loop 
+
+print "\n\n";
+print "#############################################################\n";
+print "################# Summary for $testcases test(s) #####################\n";
+print "#############################################################\n\n";
+print "Functionality: ";
+my $my_exit_code = 0;
+if ($failedtests) {
+  print "FAIL: $failedtests test(s) failed!\n";
+  $my_exit_code = 1;
+} else {
+  print "PASS: All tests passed\n";
+}
+if ($useValgrind) {
+  print "Valgrind:      ";
+  if ($memoryleaks) {
+    print "FAIL: $memoryleaks test(s) had memory leaks! ";
+    print "Run valgrind for a detailed report\n";
+    $my_exit_code = 1;
+  } elsif ($runtimeerrors > 0) {
+    print "FAIL: Could not run due to run time errors in $runtimeerrors tests\n";
+    $my_exit_code = 1;
+  } else {
+    print "PASS: No memory leaks detected\n";
+  }
+}
+print "\n#############################################################\n";
+print "#############################################################\n";
+print "#############################################################\n";
+print "\n";
+
+exit($my_exit_code);
+
+# ============================ end main ====================================

@@ -1,0 +1,14 @@
+shape a rectangle 1 2 3 4
+shape p rectangle 1 2 2 2
+draw
+group b
+group c
+draw
+move a c
+delete a
+draw
+move p c
+delete f
+delete j
+delete c
+draw

@@ -1,0 +1,17 @@
+shape my_circle ellipse 50 65 20 20
+shape my_square rectangle 100 150 60 60
+shape a_circle ellipse 120 200 40 40
+shape my_triangle triangle 40 75 90 90
+draw
+group my_first_group
+shape my_rectangle rectangle 100 275 90 180
+shape my_rectangle triangle 70 50 10 5
+shape second_triangle triangle 70 50 10 5
+draw
+move my_triangle my_first_group
+move my_circle my_first_group
+draw
+delete my_first_group
+draw
+delete pool
+delete abc

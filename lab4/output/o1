@@ -1,0 +1,57 @@
+> sqr: rectangle 10 10 30 40
+> circ: ellipse 30 40 10 10
+> trig: triangle 60 80 30 50
+> drawing:
+pool:
+sqr: rectangle 10 10 30 40
+circ: ellipse 30 40 10 10
+trig: triangle 60 80 30 50
+> no_corners: group
+> drawing:
+pool:
+sqr: rectangle 10 10 30 40
+circ: ellipse 30 40 10 10
+trig: triangle 60 80 30 50
+no_corners:
+> moved circ to no_corners
+> drawing:
+pool:
+sqr: rectangle 10 10 30 40
+trig: triangle 60 80 30 50
+no_corners:
+circ: ellipse 30 40 10 10
+> error: group no not found
+> drawing:
+pool:
+sqr: rectangle 10 10 30 40
+trig: triangle 60 80 30 50
+no_corners:
+circ: ellipse 30 40 10 10
+> moved sqr to no_corners
+> drawing:
+pool:
+trig: triangle 60 80 30 50
+no_corners:
+circ: ellipse 30 40 10 10
+sqr: rectangle 10 10 30 40
+> moved sqr to no_corners
+> drawing:
+pool:
+trig: triangle 60 80 30 50
+no_corners:
+circ: ellipse 30 40 10 10
+sqr: rectangle 10 10 30 40
+> error: shape no not found
+> drawing:
+pool:
+trig: triangle 60 80 30 50
+no_corners:
+circ: ellipse 30 40 10 10
+sqr: rectangle 10 10 30 40
+> no_corners: deleted
+> drawing:
+pool:
+trig: triangle 60 80 30 50
+circ: ellipse 30 40 10 10
+sqr: rectangle 10 10 30 40
+> 
