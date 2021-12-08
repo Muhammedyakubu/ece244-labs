@@ -1,3 +1,3 @@
 # ece244-labs
 
-This is a repository containing my lab files for the Programming Fundamentals course in 2021 fall at the University of Toronto.
+This is a repository of the all the labs I completed for the ECE244 - Progamming Fundamentals Course at the University of Toronto.
